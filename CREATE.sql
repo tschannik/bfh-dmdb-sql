@@ -1,31 +1,22 @@
 /* Drop foreignkeys first */
-ALTER TABLE
-    FERIEN DROP INDEX FK_Mitarbeiter_Ferien;
-
-ALTER TABLE
-    ABTEILUNG DROP INDEX FK_Abteilungsleiter;
-
-ALTER TABLE
-    PROJEKT_MITARBEITER DROP INDEX FK_Projekt;
-
-ALTER TABLE
-    PROJEKT_MITARBEITER DROP INDEX FK_Mitarbeiter_Projekt_Mitarbeiter;
-
-ALTER TABLE
-    PROJEKT DROP INDEX FK_Projektleiter;
-
-ALTER TABLE
-    PROJEKT DROP INDEX FK_ParentProjekt;
-
-ALTER TABLE
-    MITARBEITER DROP INDEX FK_Stellvertreter;
-
-ALTER TABLE
-    MITARBEITER DROP INDEX FK_Abteilung;
-
-ALTER TABLE
-    MITARBEITER DROP INDEX FK_Gehaltsgruppe;
-
+-- ALTER TABLE
+--     FERIEN DROP INDEX FK_Mitarbeiter_Ferien;
+-- ALTER TABLE
+--     ABTEILUNG DROP INDEX FK_Abteilungsleiter;
+-- ALTER TABLE
+--     PROJEKT_MITARBEITER DROP INDEX FK_Projekt;
+-- ALTER TABLE
+--     PROJEKT_MITARBEITER DROP INDEX FK_Mitarbeiter_Projekt_Mitarbeiter;
+-- ALTER TABLE
+--     PROJEKT DROP INDEX FK_Projektleiter;
+-- ALTER TABLE
+--     PROJEKT DROP INDEX FK_ParentProjekt;
+-- ALTER TABLE
+--     MITARBEITER DROP INDEX FK_Stellvertreter;
+-- ALTER TABLE
+--     MITARBEITER DROP INDEX FK_Abteilung;
+-- ALTER TABLE
+--     MITARBEITER DROP INDEX FK_Gehaltsgruppe;
 /* Drop existing tables*/
 DROP TABLE IF EXISTS MITARBEITER;
 
@@ -44,7 +35,7 @@ CREATE TABLE MITARBEITER(
     Name VARCHAR(50) NOT NULL,
     Vorname VARCHAR(50) NOT NULL,
     Eintrittsdatum DATE NOT NULL,
-    Bonus INT DEFAULT(0),
+    Bonus INT DEFAULT 0,
     AbteilungsID INT NOT NULL,
     GehaltsgruppeID INT NOT NULL,
     StellvertreterID INT,

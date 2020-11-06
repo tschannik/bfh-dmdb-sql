@@ -18,23 +18,14 @@ CREATE TABLE MITARBEITER(
     Vorname VARCHAR(50) NOT NULL,
     Eintrittsdatum DATE NOT NULL,
     Bonus INT DEFAULT(0),
-    /* Abteilungs ID */
-    AID INT NOT NULL,
-    /* Gehaltsgruppe ID */
-    GID INT NOT NULL,
+    AbteilungsID INT NOT NULL,
+    GehaltsgruppeID INT NOT NULL,
     StellvertreterID INT,
     PRIMARY KEY (PID),
     CONSTRAINT PID_LENGTH CHECK (
         PID BETWEEN 1000
         AND 9999
-    ),
-    CONSTRAINT StellvertreterID_LENGTH CHECK (
-        StellvertreterID BETWEEN 1000
-        AND 9999
-    ),
-    FOREIGN KEY (GID) REFERENCES GEHALTSGRUPPE(GID),
-    FOREIGN KEY (AID) REFERENCES GEHALTSGRUPPE(AID),
-    FOREIGN KEY (StellvertreterID) REFERENCES MITARBEITER(GID)
+    )
 );
 
 CREATE TABLE GEHALTSGRUPPE(
@@ -55,19 +46,16 @@ CREATE TABLE PROJEKT(
     Startdatum DATE NOT NULL,
     Enddatum DATE NOT NULL,
     ParentProjektID INT,
-    PRIMARY KEY (ProjektID),
-    FOREIGN KEY (ParentProjektID) REFERENCES PROJEKT(ProjektID),
-    FOREIGN KEY (ProjektleiterID) REFERENCES MITARBEITER(PID)
+    PRIMARY KEY (ProjektID)
 );
 
 CREATE TABLE PROJEKT_MITARBEITER(
-    PMID INT NOT NULL,
     MitarbeiterID INT NOT NULL,
+    ProjektID INT NOT NULL,
     Projektbeteiligung INT NOT NULL,
     Start_mitarbeit DATE NOT NULL,
     Ende_mitarbeit DATE NOT NULL,
-    PRIMARY KEY (PMID),
-    FOREIGN KEY (MitarbeiterID) REFERENCES MITARBEITER(PID)
+    PRIMARY KEY (MitarbeiterID, ProjektID)
 );
 
 CREATE TABLE ABTEILUNG(
@@ -75,8 +63,7 @@ CREATE TABLE ABTEILUNG(
     Bezeichnung VARCHAR(100),
     Kurzbezeichnung VARCHAR(10),
     AbteilungsleiterID INT NOT NULL,
-    PRIMARY KEY (AID),
-    FOREIGN KEY (AbteilungsleiterID) REFERENCES MITARBEITER(PID)
+    PRIMARY KEY (AID)
 );
 
 CREATE TABLE FERIEN(
@@ -84,13 +71,60 @@ CREATE TABLE FERIEN(
     Erster_Urlaubstag DATE NOT NULL,
     Letzter_Urlaubstag DATE NOT NULL,
     MitarbeiterID INT NOT NULL,
-    STATUS,
+    GenehmigungsStatus INT NOT NULL,
     Genutzte_Ferientage INT,
     Beantragt_am DATE,
-    Genehmigung INT,
+    Genehmigung BOOLEAN,
     Genehmigung_am DATE,
     Storniert_am DATE,
     PRIMARY KEY (FID),
-    FOREIGN KEY (MitarbeiterID) REFERENCES MITARBEITER(PID),
-    CONSTRAINT Genehmigung_Check CHECK (Genehmigung (1, 0))
+    CONSTRAINT GenehmigungsStatus_Check CHECK (
+        GenehmigungsStatus BETWEEN 1
+        AND 4
+    )
 );
+
+ALTER TABLE
+    MITARBEITER
+ADD
+    FOREIGN KEY (GehaltsgruppeID) REFERENCES GEHALTSGRUPPE(GID);
+
+ALTER TABLE
+    MITARBEITER
+ADD
+    FOREIGN KEY (AbteilungsID) REFERENCES ABTEILUNG(AID);
+
+ALTER TABLE
+    MITARBEITER
+ADD
+    FOREIGN KEY (StellvertreterID) REFERENCES MITARBEITER(PID);
+
+ALTER TABLE
+    PROJEKT
+ADD
+    FOREIGN KEY (ParentProjektID) REFERENCES PROJEKT(ProjektID);
+
+ALTER TABLE
+    PROJEKT
+ADD
+    FOREIGN KEY (ProjektleiterID) REFERENCES MITARBEITER(PID);
+
+ALTER TABLE
+    PROJEKT_MITARBEITER
+ADD
+    FOREIGN KEY (MitarbeiterID) REFERENCES MITARBEITER(PID);
+
+ALTER TABLE
+    PROJEKT_MITARBEITER
+ADD
+    FOREIGN KEY (ProjektID) REFERENCES PROJEKT(ProjektID);
+
+ALTER TABLE
+    ABTEILUNG
+ADD
+    FOREIGN KEY (AbteilungsleiterID) REFERENCES MITARBEITER(PID);
+
+ALTER TABLE
+    FERIEN
+ADD
+    FOREIGN KEY (MitarbeiterID) REFERENCES MITARBEITER(PID);

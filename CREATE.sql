@@ -1,56 +1,92 @@
-/* Drop foreinkeys first */
-
-
+/* Drop foreignkeys first */
 /* Drop existing tables*/
 DROP TABLE IF EXISTS MITARBEITER;
+
 DROP TABLE IF EXISTS PROJEKT;
+
 DROP TABLE IF EXISTS ABTEILUNG;
+
 DROP TABLE IF EXISTS GEHALTSGRUPPE;
+
 DROP TABLE IF EXISTS FERIEN;
 
+DROP TABLE IF EXISTS PROJEKT_MITARBEITER;
+
 CREATE TABLE MITARBEITER(
-PID INT PRIMARY KEY,
-Name VARCHAR(50) NOT NULL,
-Vorname VARCHAR(50) NOT NULL,
-Eintrittsdatum DATE NOT NULL, 
-Bonus INT DEFAULT(0),
-Abteilung,
-Gehaltsgruppe,
-StellvertreterID int 
-CONSTRAINT PID_LENGTH CHECK (PID BETWEEN 1000 AND 9999)
+    PID INT NOT NULL,
+    Name VARCHAR(50) NOT NULL,
+    Vorname VARCHAR(50) NOT NULL,
+    Eintrittsdatum DATE NOT NULL,
+    Bonus INT DEFAULT(0),
+    /* Abteilungs ID */
+    AID INT NOT NULL,
+    /* Gehaltsgruppe ID */
+    GID INT NOT NULL,
+    StellvertreterID INT,
+    PRIMARY KEY (PID),
+    CONSTRAINT PID_LENGTH CHECK (
+        PID BETWEEN 1000
+        AND 9999
+    ),
+    CONSTRAINT StellvertreterID_LENGTH CHECK (
+        StellvertreterID BETWEEN 1000
+        AND 9999
+    ),
+    FOREIGN KEY (GID) REFERENCES GEHALTSGRUPPE(GID),
+    FOREIGN KEY (AID) REFERENCES GEHALTSGRUPPE(AID),
+    FOREIGN KEY (StellvertreterID) REFERENCES MITARBEITER(GID)
 );
 
 CREATE TABLE GEHALTSGRUPPE(
-GID INT PRIMARY KEY,
-GEH INT NOT NULL,
-CONSTRAINT ID_LENGTH CHECK (GID BETWEEN 10 AND 99)
+    GID INT NOT NULL,
+    /* Standardgehalt */
+    GEH INT NOT NULL,
+    PRIMARY KEY (GID),
+    CONSTRAINT ID_LENGTH CHECK (
+        GID BETWEEN 10
+        AND 99
+    )
 );
 
 CREATE TABLE PROJEKT(
-PID INT PRIMARY KEY,
-Projektleiter,
-Bezeichnung VARCHAR(100),
-Startdatum DATE,
-Enddatum DATE,
-ParentProjekt
+    ProjektID INT NOT NULL,
+    ProjektleiterID,
+    Bezeichnung VARCHAR(100),
+    Startdatum DATE,
+    Enddatum DATE,
+    ParentProjektID INT,
+    PRIMARY KEY (ProjektID),
+    FOREIGN KEY (ParentProjektID) REFERENCES PROJEKT(ProjektID),
+    FOREIGN KEY (ProjektleiterID) REFERENCES MITARBEITER(PID)
+);
+
+CREATE TABLE PROJEKT_MITARBEITER(
+    PMID INT NOT NULL,
+    MitarbeiterID,
+    Projektbeteiligung INT NOT NULL,
+    Start_mitarbeit DATE,
+    Ende_mitarbeit DATE,
+    PRIMARY KEY (PMID)
 );
 
 CREATE TABLE ABTEILUNG(
-AID INT PRIMARY KEY
-Bezeichnung
-Kurzbezeichnung
-Abteilungsleiter
+    AID INT NOT NULL,
+    Bezeichnung,
+    Kurzbezeichnung,
+    Abteilungsleiter,
+    PRIMARY KEY (AID)
 );
 
 CREATE TABLE FERIEN(
-FID
-Erster_Urlaubstag
-Letzter_Urlaubstag
-Mitarbeiter
-Status
-Genutzte_Ferientage
-Beantragt_am
-Genehmigung
-Genehmigung_am
-Storniert_am
+    FID INT NOT NULL,
+    Erster_Urlaubstag,
+    Letzter_Urlaubstag,
+    Mitarbeiter,
+    STATUS,
+    Genutzte_Ferientage,
+    Beantragt_am,
+    Genehmigung,
+    Genehmigung_am,
+    Storniert_am,
+    PRIMARY KEY (FID)
 );

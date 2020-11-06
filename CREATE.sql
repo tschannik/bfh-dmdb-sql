@@ -50,10 +50,10 @@ CREATE TABLE GEHALTSGRUPPE(
 
 CREATE TABLE PROJEKT(
     ProjektID INT NOT NULL,
-    ProjektleiterID,
-    Bezeichnung VARCHAR(100),
-    Startdatum DATE,
-    Enddatum DATE,
+    ProjektleiterID INT NOT NULL,
+    Bezeichnung VARCHAR(100) NOT NULL,
+    Startdatum DATE NOT NULL,
+    Enddatum DATE NOT NULL,
     ParentProjektID INT,
     PRIMARY KEY (ProjektID),
     FOREIGN KEY (ParentProjektID) REFERENCES PROJEKT(ProjektID),
@@ -62,31 +62,35 @@ CREATE TABLE PROJEKT(
 
 CREATE TABLE PROJEKT_MITARBEITER(
     PMID INT NOT NULL,
-    MitarbeiterID,
+    MitarbeiterID INT NOT NULL,
     Projektbeteiligung INT NOT NULL,
-    Start_mitarbeit DATE,
-    Ende_mitarbeit DATE,
-    PRIMARY KEY (PMID)
+    Start_mitarbeit DATE NOT NULL,
+    Ende_mitarbeit DATE NOT NULL,
+    PRIMARY KEY (PMID),
+    FOREIGN KEY (MitarbeiterID) REFERENCES MITARBEITER(PID)
 );
 
 CREATE TABLE ABTEILUNG(
     AID INT NOT NULL,
-    Bezeichnung,
-    Kurzbezeichnung,
-    Abteilungsleiter,
-    PRIMARY KEY (AID)
+    Bezeichnung VARCHAR(100),
+    Kurzbezeichnung VARCHAR(10),
+    AbteilungsleiterID INT NOT NULL,
+    PRIMARY KEY (AID),
+    FOREIGN KEY (AbteilungsleiterID) REFERENCES MITARBEITER(PID)
 );
 
 CREATE TABLE FERIEN(
     FID INT NOT NULL,
-    Erster_Urlaubstag,
-    Letzter_Urlaubstag,
-    Mitarbeiter,
+    Erster_Urlaubstag DATE NOT NULL,
+    Letzter_Urlaubstag DATE NOT NULL,
+    MitarbeiterID INT NOT NULL,
     STATUS,
-    Genutzte_Ferientage,
-    Beantragt_am,
-    Genehmigung,
-    Genehmigung_am,
-    Storniert_am,
-    PRIMARY KEY (FID)
+    Genutzte_Ferientage INT,
+    Beantragt_am DATE,
+    Genehmigung INT,
+    Genehmigung_am DATE,
+    Storniert_am DATE,
+    PRIMARY KEY (FID),
+    FOREIGN KEY (MitarbeiterID) REFERENCES MITARBEITER(PID),
+    CONSTRAINT Genehmigung_Check CHECK (Genehmigung (1, 0))
 );

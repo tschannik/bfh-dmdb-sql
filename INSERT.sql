@@ -35,42 +35,42 @@ INSERT INTO
 VALUES
     (
         1,
-        'Konzernweites Cloudbased Printing',
+        'Backup des Internets erstellen',
         '2020-10-20',
         '2021-10-20',
         NULL
     ),
     (
         2,
-        'Konzernweites Cloudbased Printing',
+        'Neuinstallation Heizungsanlagen aufgrund von Explosion nach Verwendung des falschen Schmiermittels',
         '2020-10-20',
         '2021-10-20',
         NULL
     ),
     (
         3,
-        'Konzernweites Cloudbased Printing',
+        'KI welche aufgrund der aktuellen Gefühlslage die perfekte Netflix-Serie vorschlägt',
         '2020-10-20',
         '2021-10-20',
         NULL
     ),
     (
         4,
-        'Konzernweites Cloudbased Printing',
+        'Einführung weltweit einheitlicher Steckdosen',
         '2020-10-20',
         '2021-10-20',
         NULL
     ),
     (
         5,
-        'Konzernweites Cloudbased Printing',
+        'Verlohrene Nadeln im Heuhaufen suchen',
         '2020-10-20',
         '2021-10-20',
         NULL
     ),
     (
         6,
-        'Konzernweites Cloudbased Printing',
+        'Schäfchen zählen',
         '2020-10-20',
         '2021-10-20',
         NULL

@@ -43,13 +43,17 @@ CREATE TABLE MITARBEITER(
     CONSTRAINT PID_LENGTH CHECK (
         PID BETWEEN 1000
         AND 9999
+    ),
+    CONSTRAINT Bonus_LENGTH CHECK (
+        Bonus BETWEEN 0
+        AND 100
     )
 );
 
 CREATE TABLE GEHALTSGRUPPE(
     GID INT NOT NULL,
     /* Standardgehalt */
-    GEH INT NOT NULL,
+    GEH VARCHAR(20) NOT NULL,
     PRIMARY KEY (GID),
     CONSTRAINT ID_LENGTH CHECK (
         GID BETWEEN 10
@@ -74,12 +78,16 @@ CREATE TABLE PROJEKT_MITARBEITER(
     Start_mitarbeit DATE NOT NULL,
     Ende_mitarbeit DATE NOT NULL,
     PRIMARY KEY (MitarbeiterID, ProjektID),
-    UNIQUE (MitarbeiterID, ProjektID)
+    UNIQUE (MitarbeiterID, ProjektID),
+    CONSTRAINT Projektbeteiligung_LENGTH CHECK (
+        Projektbeteiligung BETWEEN 0
+        AND 100
+    )
 );
 
 CREATE TABLE ABTEILUNG(
     AID INT NOT NULL,
-    Bezeichnung VARCHAR(100),
+    Bezeichnung VARCHAR(50),
     Kurzbezeichnung VARCHAR(10),
     AbteilungsleiterID INT NOT NULL,
     PRIMARY KEY (AID)

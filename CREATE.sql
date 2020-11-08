@@ -33,6 +33,8 @@ DROP TABLE IF EXISTS FERIEN;
 
 DROP TABLE IF EXISTS PROJEKT_MITARBEITER;
 
+DROP TABLE IF EXISTS MITARBEITER_BONUS;
+
 SET
     foreign_key_checks = 1;
 
@@ -41,7 +43,6 @@ CREATE TABLE MITARBEITER(
     Name VARCHAR(50) NOT NULL,
     Vorname VARCHAR(50) NOT NULL,
     Eintrittsdatum DATE NOT NULL,
-    Bonus INT DEFAULT 0,
     AbteilungsID INT NOT NULL,
     GehaltsgruppeID INT NOT NULL,
     StellvertreterID INT,
@@ -49,10 +50,18 @@ CREATE TABLE MITARBEITER(
     CONSTRAINT PID_LENGTH CHECK (
         PID BETWEEN 1000
         AND 9999
-    ),
+    )
+);
+
+CREATE TABLE MITARBEITER_BONUS(
+    MBID INT NOT NULL,
+    MitarbeiterID INT NOT NULL,
+    Kalenderjahr DATE NOT NULL,
+    Bonus INT DEFAULT 0,
+    PRIMARY KEY (MBID),
     CONSTRAINT Bonus_LENGTH CHECK (
-        Bonus BETWEEN 0
-        AND 100
+        Bonus BETWEEN -10
+        AND 10
     )
 );
 
@@ -107,7 +116,6 @@ CREATE TABLE FERIEN(
     GenehmigungsStatus INT NOT NULL,
     Genutzte_Ferientage INT,
     Beantragt_am DATE,
-    Genehmigung BOOLEAN,
     Genehmigung_am DATE,
     Storniert_am DATE,
     PRIMARY KEY (FID),
@@ -131,6 +139,11 @@ ALTER TABLE
     MITARBEITER
 ADD
     CONSTRAINT FK_Stellvertreter FOREIGN KEY (StellvertreterID) REFERENCES MITARBEITER(PID) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE
+    MITARBEITER_BONUS
+ADD
+    CONSTRAINT FK_Mitarbeiter_ID_Bonus FOREIGN KEY (MitarbeiterID) REFERENCES MITARBEITER(PID) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE
     PROJEKT

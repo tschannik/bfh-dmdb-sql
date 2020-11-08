@@ -15,13 +15,18 @@ VALUES
 
 /* Abteilungen */
 INSERT INTO
-    ABTEULUNG (AID, Bezeichnung, Kurzbezeichnung)
+    ABTEILUNG (
+        AID,
+        Bezeichnung,
+        Kurzbezeichnung,
+        AbteilungsleiterID
+    )
 VALUES
-    (1, 'Human Resources', 'HR'),
-    (2, 'Information Technologies', 'IT'),
-    (3, 'Mitarbeiter', 'MA'),
-    (4, 'Konzernleitung', 'KL'),
-    (5, 'Extern', 'EXT');
+    (1, 'Human Resources', 'HR', 1001),
+    (2, 'Information Technologies', 'IT', 1000),
+    (3, 'Mitarbeiter', 'MA', 1004),
+    (4, 'Konzernleitung', 'KL', 1005),
+    (5, 'Extern', 'EXT', 1010);
 
 /* Projekte */
 INSERT INTO
@@ -78,18 +83,18 @@ VALUES
 
 /* Mitarbeiter */
 INSERT INTO
-    MITARBEITER (PID, Name, Vorname, Eintrittsdatum, Bonus)
+    MITARBEITER (PID, Name, Vorname, Eintrittsdatum)
 VALUES
-    (1000, 'Radi', 'Karl', '2020-10-01', 0),
-    (1001, 'Lette', 'Adi', '2020-10-01', 0),
-    (1002, 'Theke', 'Andi', '2020-10-01', 0),
-    (1003, 'Nass', 'Anna', '2020-10-01', 0),
-    (1004, 'Gator', 'Alli', '2020-10-01', 0),
-    (1005, 'Schweis', 'Axel', '2020-10-01', 0),
-    (1006, 'Silie', 'Peter', '2020-10-01', 0),
-    (1007, 'Uhr', 'Klaus', '2020-10-01', 0),
-    (1008, 'Steinfeger', 'Shawn', '2020-10-01', 0),
-    (1009, 'Lung', 'Sam', '2020-10-01', 0);
+    (1000, 'Radi', 'Karl', '2020-10-01'),
+    (1001, 'Lette', 'Adi', '2020-10-01'),
+    (1002, 'Theke', 'Andi', '2020-10-01'),
+    (1003, 'Nass', 'Anna', '2020-10-01'),
+    (1004, 'Gator', 'Alli', '2020-10-01'),
+    (1005, 'Schweis', 'Axel', '2020-10-01'),
+    (1006, 'Silie', 'Peter', '2020-10-01'),
+    (1007, 'Uhr', 'Klaus', '2020-10-01'),
+    (1008, 'Steinfeger', 'Shawn', '2020-10-01'),
+    (1009, 'Lung', 'Sam', '2020-10-01');
 
 /* Mitarbeiter */
 INSERT INTO

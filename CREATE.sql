@@ -60,7 +60,7 @@ CREATE TABLE MITARBEITER_BONUS(
     Bonus INT DEFAULT 0,
     PRIMARY KEY (MBID),
     CONSTRAINT Bonus_LENGTH CHECK (
-        Bonus BETWEEN -10
+        Bonus BETWEEN - 10
         AND 10
     )
 );

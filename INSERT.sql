@@ -94,7 +94,8 @@ VALUES
     (1006, 'Silie', 'Peter', '2020-10-01'),
     (1007, 'Uhr', 'Klaus', '2020-10-01'),
     (1008, 'Steinfeger', 'Shawn', '2020-10-01'),
-    (1009, 'Lung', 'Sam', '2020-10-01');
+    (1009, 'Nötig', 'Hans', '2020-10-10'),
+    (1010, 'Lung', 'Sam', '2020-10-01');
 
 /* Mitarbeiter */
 INSERT INTO

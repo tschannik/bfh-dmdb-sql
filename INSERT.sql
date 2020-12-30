@@ -192,6 +192,7 @@ VALUES
 -- INSERT INTO
 --     MITARBEITER (PID, Name, Vorname, Eintrittsdatum, Bonus)
 -- VALUES
+--
 --     (1000, 'Radi', 'Karl', '2020-10-01', 0),
 --     (1001, 'Lette', 'Adi', '2020-10-01', 0),
 --     (1002, 'Theke', 'Andi', '2020-10-01', 0),

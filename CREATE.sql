@@ -54,15 +54,14 @@ CREATE TABLE BONUS(
     ErhaltAbAnstellungszeit INT NOT NULL,
     PRIMARY KEY (BID),
     CONSTRAINT Bonus_Prozent CHECK (
-        Bonus BETWEEN - 10
+        Bonus_Prozent BETWEEN - 10
         AND 10
     )
 );
 
 CREATE TABLE GEHALTSGRUPPE(
     GID INT NOT NULL,
-    /* Standardgehalt */
-    GEH VARCHAR(20) NOT NULL,
+    GEH INT NOT NULL,
     PRIMARY KEY (GID),
     CONSTRAINT ID_LENGTH CHECK (
         GID BETWEEN 10

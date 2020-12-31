@@ -4,8 +4,12 @@
 
 Erhaltene Skripts:
 
-- [CREATE.sql](/CREATE.sql)
+- [CREATE1.sql](/CREATE1.sql)
+- [CREATE2.sql](/CREATE2.sql)
 - [INSERT.sql](/INSERT.sql)
 - [DEL.sql](/DEL.sql)
 - [SELECT.sql](/SELECT.sql)
-- [DOKU.sql](/DOKU.sql)
+
+Doku:
+
+- [DOKU.pdf](/DOKU.pdf)

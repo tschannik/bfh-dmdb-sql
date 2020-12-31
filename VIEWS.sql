@@ -1,4 +1,5 @@
-/* Alle Mitarbeiter die in den Ferien sind */
+/* Creates Views for predefined selects */
+CREATE VIEW MITARBEITER_IN_FERIEN AS
 SELECT
     PID,
     Name,
@@ -15,6 +16,7 @@ WHERE
     AND GenehmigungsStatus = 2;
 
 /* Alle Mitarbeiter die schon länger als 10 Jahre bei der Firma arbeiten inkl. Bonus */
+CREATE VIEW MITARBEITER_10_JAHRE_ANGESTELLT AS
 SELECT
     PID,
     Name,
@@ -27,6 +29,7 @@ WHERE
     DATEDIFF(YEAR, Eintrittsdatum, CURRENT_DATE) >= 10;
 
 /* Minimales und Maximales gehalt der Abteilungsleiter */
+CREATE VIEW MIN_MAX_GEHALT_ABTEILUNGSLEITER AS
 SELECT
     Name,
     Vorname,
@@ -50,6 +53,7 @@ WHERE
     );
 
 /* Die drei meist durch Projekte ausgelastetsten Mitarbeiter */
+CREATE VIEW MITARBEITER_MEISTE_PROJEKTE AS
 SELECT
     PID,
     Name,
@@ -68,6 +72,7 @@ LIMIT
     3;
 
 /* Alle Mitarbeiter einer Gehaltsgrupper sowie das kalkulierte gehalt */
+CREATE VIEW GEHALTSGRUPPE_20_UND_GEHALT AS
 SELECT
     PID,
     Name,

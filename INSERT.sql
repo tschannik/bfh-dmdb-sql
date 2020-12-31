@@ -45,7 +45,7 @@ VALUES
 /* Mitarbeiter */
 INSERT INTO
     MITARBEITER (
-        PID,
+        PNR,
         Name,
         Vorname,
         Eintrittsdatum,
@@ -69,7 +69,7 @@ VALUES
         1001,
         'Lette',
         'Adi',
-        '2020-10-01',
+        '2009-10-01',
         1,
         20,
         NULL,
@@ -89,7 +89,7 @@ VALUES
         1003,
         'Nass',
         'Anna',
-        '2020-10-01',
+        '2004-10-01',
         3,
         13,
         NULL,
@@ -289,11 +289,11 @@ VALUES
     ),
     (
         2,
-        '2021-01-04',
+        '2020-12-29',
         '2021-01-15',
         1009,
         2,
-        10,
+        13,
         '2020-12-01',
         '2020-12-03',
         NULL

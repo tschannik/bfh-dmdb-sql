@@ -1,3 +1,14 @@
+/* Drop existing Views */
+DROP VIEW IF EXISTS GEHALTSGRUPPE_20_UND_GEHALT;
+
+DROP VIEW IF EXISTS MITARBEITER_MEISTE_PROJEKTE;
+
+DROP VIEW IF EXISTS MIN_MAX_GEHALT_ABTEILUNGSLEITER;
+
+DROP VIEW IF EXISTS MITARBEITER_10_JAHRE_ANGESTELLT;
+
+DROP VIEW IF EXISTS MITARBEITER_IN_FERIEN;
+
 /* Drop existing tables*/
 DROP TABLE IF EXISTS ABTEILUNGSLEITER;
 
@@ -17,17 +28,17 @@ DROP TABLE IF EXISTS GEHALTSGRUPPE;
 
 /* Create tables */
 CREATE TABLE MITARBEITER(
-    PID INT NOT NULL,
+    PNR INT NOT NULL,
     Name VARCHAR(50) NOT NULL,
     Vorname VARCHAR(50) NOT NULL,
     Eintrittsdatum DATE NOT NULL,
     AbteilungsID INT NOT NULL,
     GehaltsgruppeID INT NOT NULL,
-    BonusID INT NOT NULL,
+    BonusID INT DEFAULT 3 NOT NULL,
     StellvertreterID INT,
-    PRIMARY KEY (PID),
-    CONSTRAINT PID_LENGTH CHECK (
-        PID BETWEEN 1000
+    PRIMARY KEY (PNR),
+    CONSTRAINT PNR_LENGTH CHECK (
+        PNR BETWEEN 1000
         AND 9999
     )
 );
@@ -35,6 +46,7 @@ CREATE TABLE MITARBEITER(
 CREATE TABLE BONUS(
     BID INT NOT NULL,
     Bonus_Prozent INT NOT NULL,
+    /* Mitarbeiter erhalten den Bonus wenn sie x Jahre angestellt sind */
     ErhaltAbAnstellungszeit INT NOT NULL,
     PRIMARY KEY (BID),
     CONSTRAINT Bonus_Prozent CHECK (
@@ -55,6 +67,7 @@ CREATE TABLE GEHALTSGRUPPE(
 
 CREATE TABLE PROJEKT(
     ProjektID INT NOT NULL,
+    /* Projektleiter müssen für ein Projekt definiert werden und sind so automatisch für die ganze Projektdauer verantwortlich */
     ProjektleiterID INT NOT NULL,
     Bezeichnung VARCHAR(100) NOT NULL,
     Startdatum DATE NOT NULL,
@@ -105,5 +118,5 @@ CREATE TABLE ABTEILUNGSLEITER(
     MitarbeiterID INT NOT NULL,
     AbteilungsID INT NOT NULL,
     PRIMARY KEY (ATID),
-    UNIQUE(MitarbeiterID, AbteilungsID)
+    UNIQUE(AbteilungsID)
 );

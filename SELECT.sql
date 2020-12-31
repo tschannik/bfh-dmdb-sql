@@ -1,65 +1,79 @@
 /* Alle Mitarbeiter die in den Ferien sind */
 SELECT
-    PID,
+    PNR,
     Name,
     Vorname,
     Erster_Urlaubstag,
     Letzter_Urlaubstag,
-    GenehmigungsStatus
+    GenehmigungsStatus,
+    Genutzte_Ferientage
 FROM
     Mitarbeiter
-    LEFT JOIN FERIEN ON Mitarbeiter.PID = FERIEN.MitarbeiterID
+    LEFT JOIN FERIEN ON Mitarbeiter.PNR = FERIEN.MitarbeiterID
 WHERE
     Erster_Urlaubstag <= NOW
     AND Letzter_Urlaubstag >= NOW
     AND GenehmigungsStatus = 2;
 
-/* Alle Mitarbeiter die schon länger als 10 Jahre bei der Firma arbeiten inkl. Bonus */
+/* Alle Mitarbeiter die schon länger als 10 Jahre bei der Firma arbeiten inkl. Bonus und Gehalt */
 SELECT
-    PID,
+    PNR,
     Name,
     Vorname,
-    Bonus_Prozent
+    Bonus_Prozent,
+    GEH * (1.00 + (1.00 * Bonus_Prozent / 100.00)) AS Gehalt
 FROM
     MITARBEITER
     LEFT JOIN BONUS ON MITARBEITER.BonusID = BONUS.BID
+    LEFT JOIN GEHALTSGRUPPE ON MITARBEITER.GehaltsgruppeID = GEHALTSGRUPPE.GID
 WHERE
     DATEDIFF(YEAR, Eintrittsdatum, CURRENT_DATE) >= 10;
 
-/* Minimales und Maximales gehalt der Abteilungsleiter */
+/* Minimale und maximale Gehaltsgruppe der Abteilungsleiter */
 SELECT
-    Name,
-    Vorname,
-    GEH
+    ABTEILUNG.Kurzbezeichnung,
+    ABTEILUNG.Bezeichnung,
+    MITARBEITER.Name,
+    MITARBEITER.Vorname,
+    GEHALTSGRUPPE.GEH,
+    GEHALTSGRUPPE.GID
 FROM
     MITARBEITER
     LEFT JOIN GEHALTSGRUPPE ON GEHALTSGRUPPE.GID = MITARBEITER.GehaltsgruppeID
-    LEFT JOIN ABTEILUNGSLEITER ON ABTEILUNGSLEITER.ATID = MITARBEITER.PID
+    LEFT JOIN ABTEILUNG ON ABTEILUNG.AID = MITARBEITER.AbteilungsID
+    LEFT JOIN ABTEILUNGSLEITER ON ABTEILUNGSLEITER.MitarbeiterID = MITARBEITER.PNR
 WHERE
-    GEHALTSGRUPPE.GEH IN (
-        SELECT
-            MIN(GEH)
-        FROM
-            GEHALTSGRUPPE
+    (
+        GEHALTSGRUPPE.GEH IN (
+            SELECT
+                MIN(GEH)
+            FROM
+                GEHALTSGRUPPE
+                INNER JOIN MITARBEITER ON MITARBEITER.GehaltsgruppeID = GEHALTSGRUPPE.GID
+                INNER JOIN ABTEILUNGSLEITER ON MITARBEITER.PNR = ABTEILUNGSLEITER.MitarbeiterID
+        )
+        OR GEHALTSGRUPPE.GEH IN (
+            SELECT
+                MAX(GEH)
+            FROM
+                GEHALTSGRUPPE
+                INNER JOIN MITARBEITER ON MITARBEITER.GehaltsgruppeID = GEHALTSGRUPPE.GID
+                INNER JOIN ABTEILUNGSLEITER ON MITARBEITER.PNR = ABTEILUNGSLEITER.MitarbeiterID
+        )
     )
-    OR GEHALTSGRUPPE.GEH IN (
-        SELECT
-            MAX(GEH)
-        FROM
-            GEHALTSGRUPPE
-    );
+    AND ABTEILUNGSLEITER.MitarbeiterID = MITARBEITER.PNR;
 
 /* Die drei meist durch Projekte ausgelastetsten Mitarbeiter */
 SELECT
-    PID,
+    PNR,
     Name,
     Vorname,
-    COUNT(*)
+    COUNT(*) AS Anzahl_Projekte
 FROM
     MITARBEITER
-    LEFT JOIN PROJEKT_MITARBEITER ON MITARBEITER.PID = PROJEKT_MITARBEITER.MitarbeiterID
+    LEFT JOIN PROJEKT_MITARBEITER ON MITARBEITER.PNR = PROJEKT_MITARBEITER.MitarbeiterID
 GROUP BY
-    PID,
+    PNR,
     Name,
     Vorname
 ORDER BY
@@ -69,10 +83,10 @@ LIMIT
 
 /* Alle Mitarbeiter einer Gehaltsgrupper sowie das kalkulierte gehalt */
 SELECT
-    PID,
+    PNR,
     Name,
     Vorname,
-    GEH * (1.00 + (1.00 * Bonus_Prozent / 100.00)) AS Gehalt,
+    GEH * (1.00 + (1.00 * Bonus_Prozent / 100.00)) AS Kalkuliertes_Gehalt,
     Bonus_Prozent
 FROM
     MITARBEITER
